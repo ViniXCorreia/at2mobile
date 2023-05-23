@@ -58,10 +58,11 @@
         android:id="@+id/glutenItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="4dp"
         android:text="gluten"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/descricaoItem"
-        app:layout_constraintTop_toBottomOf="@+id/descricaoItem" />
+        app:layout_constraintStart_toEndOf="@+id/item_view"
+        app:layout_constraintTop_toBottomOf="@+id/descricaoItem"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
