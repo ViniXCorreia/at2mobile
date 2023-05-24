@@ -6,7 +6,15 @@ public class ProdutoVO {
     private float preco;
     private String titulo;
     private int calorias;
-    private boolean gluten;
+    private int gluten;
+
+    public int getGluten() {
+        return gluten;
+    }
+
+    public void setGluten(int gluten) {
+        this.gluten = gluten;
+    }
 
     public String getDescricao() {
         return descricao;
@@ -38,14 +46,6 @@ public class ProdutoVO {
 
     public void setCalorias(int calorias) {
         this.calorias = calorias;
-    }
-
-    public boolean isGluten() {
-        return gluten;
-    }
-
-    public void setGluten(boolean gluten) {
-        this.gluten = gluten;
     }
 
     public String getImagem() {

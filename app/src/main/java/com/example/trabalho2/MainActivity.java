@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
         p1.setDescricao("Pizza");
         p1.setPreco((float) 10.50);
         p1.setCalorias(200);
-        p1.setGluten(true);
+        p1.setGluten(1);
         p1.setTitulo("PIZZAZUDA");
         ProdutoVO p2 = new ProdutoVO();
         p2.setDescricao("Hamburguer");
-        p2.setGluten(false);
+        p2.setGluten(0);
         p2.setCalorias(234);
         p2.setTitulo("HAMBURGAO DA MASSA");
         p2.setPreco((float) 22.30);

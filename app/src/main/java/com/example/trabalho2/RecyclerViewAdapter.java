@@ -83,7 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.getDescricao().setText(p.getDescricao());
         viewHolder.getCalorias().setText(String.valueOf(p.getCalorias()));
         viewHolder.getPreco().setText(df.format(p.getPreco()));
-        viewHolder.getGluten().setText(p.isGluten() ? "Possui Glúten" : "Não possui glúten");
+        viewHolder.getGluten().setText(p.getGluten() == 1 ? "Possui Glúten" : "Sem Glúten");
 
     }
 
