@@ -20,7 +20,7 @@ public class ProdutoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(@NonNull SQLiteDatabase db) {
-        String sql = "CREATE TABLE produto (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo TEXT, descricao TEXT, preco REAL, gluten INTEGER, calorias INTEGER)";
+        String sql = "CREATE TABLE produto (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem TEXT, titulo TEXT, descricao TEXT, preco REAL, gluten INTEGER, calorias INTEGER)";
         db.execSQL(sql);
     }
 
@@ -38,15 +38,16 @@ public class ProdutoDAO extends SQLiteOpenHelper {
         dados.put("preco", produtoVO.getPreco());
         dados.put("gluten", produtoVO.getGluten());
         dados.put("calorias", produtoVO.getCalorias());
+        dados.put("imagem", produtoVO.getImagem());
         db.insert("produto", null, dados);
         return "Produto inserido com sucesso";
     }
 
     public List<ProdutoVO> buscarProdutos() throws Exception{
         SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT * FROM produto";
         Cursor c = db.rawQuery(sql, null);
-        List produtos = new ArrayList<ProdutoVO>();
+        List<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
         while (c.moveToNext()){
             ProdutoVO produtoVO = new ProdutoVO();
             produtoVO.setTitulo(c.getString(c.getColumnIndexOrThrow("titulo")));
@@ -54,6 +55,7 @@ public class ProdutoDAO extends SQLiteOpenHelper {
             produtoVO.setPreco(Float.parseFloat(c.getString(c.getColumnIndexOrThrow("preco"))));
             produtoVO.setGluten(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("gluten"))));
             produtoVO.setCalorias(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("calorias"))));
+            produtoVO.setImagem(c.getString((c.getColumnIndexOrThrow("imagem"))));
             produtos.add(produtoVO);
         }
         c.close();

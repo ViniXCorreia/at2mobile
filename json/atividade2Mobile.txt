@@ -1,0 +1,20 @@
+{
+    "produtos":[
+        {
+            "imagemURL":"https://loja.supermerclick.com.br/image/cachewebp/catalog/produtos-integracao/002693-omie___coca-cola-1500ml__conv-800x800.webp",
+            "descricao":"Coca-Cola bem gelada",
+            "preco":"4.00",
+            "titulo":"COCA-COLA",
+            "calorias":250,
+            "glutem":1
+        },
+        {
+            "imagemURL":"https://s2.glbimg.com/IaEnP49buSdSUDftlMxVrq3-ZDo=/940x523/e.glbimg.com/og/ed/f/original/2019/04/26/loucosporti1.jpg",
+            "descricao":"Hamburguer Cabuloso",
+            "preco":"22.00",
+            "titulo":"HAMBURGUER",
+            "calorias":500,
+            "glutem":0
+        }
+    ]
+}

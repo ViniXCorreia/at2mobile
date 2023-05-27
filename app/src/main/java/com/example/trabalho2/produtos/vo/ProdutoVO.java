@@ -3,7 +3,7 @@ package com.example.trabalho2.produtos.vo;
 public class ProdutoVO {
     private String descricao;
     private String imagem;
-    private float preco;
+    private double preco;
     private String titulo;
     private int calorias;
     private int gluten;
@@ -24,11 +24,11 @@ public class ProdutoVO {
         this.descricao = descricao;
     }
 
-    public float getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(float preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 
