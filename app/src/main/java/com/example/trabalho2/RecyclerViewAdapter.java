@@ -62,6 +62,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView getImagemItem() {
             return imagemItem;
         }
+
+        public void getImagemFromInternet(String url){
+            DownloadImageTask task = new DownloadImageTask(imagemItem);
+            task.execute(url);
+        }
     }
 
     public RecyclerViewAdapter(ProdutoVO[] dataSet) {
@@ -84,7 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.getCalorias().setText(String.valueOf(p.getCalorias()));
         viewHolder.getPreco().setText(df.format(p.getPreco()));
         viewHolder.getGluten().setText(p.getGluten() == 1 ? "Possui Glúten" : "Sem Glúten");
-
+        viewHolder.getImagemFromInternet(p.getImagem());
     }
 
     @Override
