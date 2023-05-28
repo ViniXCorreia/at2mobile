@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -43,24 +44,63 @@ public class ProdutoDAO extends SQLiteOpenHelper {
         return "Produto inserido com sucesso";
     }
 
-    public List<ProdutoVO> buscarProdutos() throws Exception{
-        SQLiteDatabase db = getReadableDatabase();
-        String sql = "SELECT * FROM produto";
-        Cursor c = db.rawQuery(sql, null);
-        List<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
-        while (c.moveToNext()){
-            ProdutoVO produtoVO = new ProdutoVO();
-            produtoVO.setTitulo(c.getString(c.getColumnIndexOrThrow("titulo")));
-            produtoVO.setDescricao(c.getString(c.getColumnIndexOrThrow("descricao")));
-            produtoVO.setPreco(Float.parseFloat(c.getString(c.getColumnIndexOrThrow("preco"))));
-            produtoVO.setGluten(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("gluten"))));
-            produtoVO.setCalorias(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("calorias"))));
-            produtoVO.setImagem(c.getString((c.getColumnIndexOrThrow("imagem"))));
-            produtos.add(produtoVO);
+    public ArrayList<ProdutoVO> buscarProdutos() throws Exception{
+        try{
+            SQLiteDatabase db = getReadableDatabase();
+            String sql = "SELECT * FROM produto";
+            Cursor c = db.rawQuery(sql, null);
+            ArrayList<ProdutoVO> produtos = new ArrayList<ProdutoVO>();
+            while (c.moveToNext()){
+                ProdutoVO produtoVO = new ProdutoVO();
+                produtoVO.setTitulo(c.getString(c.getColumnIndexOrThrow("titulo")));
+                produtoVO.setDescricao(c.getString(c.getColumnIndexOrThrow("descricao")));
+                produtoVO.setPreco(Float.parseFloat(c.getString(c.getColumnIndexOrThrow("preco"))));
+                produtoVO.setGluten(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("gluten"))));
+                produtoVO.setCalorias(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("calorias"))));
+                produtoVO.setImagem(c.getString((c.getColumnIndexOrThrow("imagem"))));
+                produtos.add(produtoVO);
+            }
+            c.close();
+            db.close();
+            return produtos;
+
+        }catch (Exception e){
+            Log.d("Erro SQL", "Erro ao buscarProdutos");
         }
-        c.close();
+
+        return null;
+    }
+
+    public void deletaProdutos() {
+        SQLiteDatabase db = getWritableDatabase();
+        String tabela = "produto";
+        db.delete(tabela, null, null);
         db.close();
-        return produtos;
+    }
+
+    public ProdutoVO buscaProdutoPorTitulo(String titulo){
+        try{
+            SQLiteDatabase db = getReadableDatabase();
+            String sql = "SELECT * FROM produto WHERE titulo = '" + titulo + "';";
+            Cursor c = db.rawQuery(sql, null);
+            ProdutoVO produtoVO = null;
+            if(c.moveToNext()){
+                produtoVO = new ProdutoVO();
+                produtoVO.setTitulo(c.getString(c.getColumnIndexOrThrow("titulo")));
+                produtoVO.setDescricao(c.getString(c.getColumnIndexOrThrow("descricao")));
+                produtoVO.setPreco(Float.parseFloat(c.getString(c.getColumnIndexOrThrow("preco"))));
+                produtoVO.setGluten(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("gluten"))));
+                produtoVO.setCalorias(Integer.parseInt(c.getString(c.getColumnIndexOrThrow("calorias"))));
+                produtoVO.setImagem(c.getString((c.getColumnIndexOrThrow("imagem"))));
+            }
+
+            c.close();
+            db.close();
+            return produtoVO;
+        } catch (Exception e){
+            Log.d("Erro SQL", "Erro ao buscarProdutoPorTitulo");
+        }
+        return null;
     }
 
 }

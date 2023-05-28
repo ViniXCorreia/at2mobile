@@ -4,7 +4,7 @@
             "imagemURL":"https://loja.supermerclick.com.br/image/cachewebp/catalog/produtos-integracao/002693-omie___coca-cola-1500ml__conv-800x800.webp",
             "descricao":"Coca-Cola bem gelada",
             "preco":"4.00",
-            "titulo":"COCA-COLA",
+            "titulo":"COCA_COLA",
             "calorias":250,
             "glutem":1
         },

@@ -23,13 +23,22 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
     public ArrayList produtos = new ArrayList<ProdutoVO>();
     private static final String TAG = "FetchJsonTask";
     private OnTaskCompleteListener taskListener;
+    private OnTaskFailedListener taskFailedListener;
 
     public interface OnTaskCompleteListener{
-        void onTaskComplete(ArrayList<ProdutoVO> produtos);
+        void onTaskComplete(ArrayList<ProdutoVO> produtos) throws Exception;
+    }
+
+    public interface OnTaskFailedListener{
+        void onTaskFailed(boolean failed);
     }
 
     public void setOnTaskCompleteListener(OnTaskCompleteListener listener){
         taskListener = listener;
+    }
+
+    public void setOnTaskFailedListener(OnTaskFailedListener listener){
+        taskFailedListener = listener;
     }
     @Override
     protected JSONObject doInBackground(String... urls) {
@@ -86,7 +95,19 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
     protected void onPostExecute(JSONObject jsonObject) {
         if (jsonObject != null) {
             if(taskListener != null){
-                taskListener.onTaskComplete(produtos);
+                try {
+                    taskListener.onTaskComplete(produtos);
+                } catch (Exception e) {
+                    Log.e(TAG, "Error executing task: " + e.getMessage());
+                }
+            }
+        }else{
+            if(taskFailedListener != null){
+                try{
+                    taskFailedListener.onTaskFailed(true);
+                } catch (Exception e){
+                    Log.e(TAG, "Error executing task: " + e.getMessage());
+                }
             }
         }
     }

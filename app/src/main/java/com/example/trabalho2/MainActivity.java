@@ -7,42 +7,47 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.trabalho2.produtos.dao.ProdutoDAO;
 import com.example.trabalho2.produtos.vo.ProdutoVO;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ReadExternalFileByUrl.OnTaskCompleteListener {
+public class MainActivity extends AppCompatActivity implements ReadExternalFileByUrl.OnTaskCompleteListener, ReadExternalFileByUrl.OnTaskFailedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean conectado = ChecaInternet.isNetworkConnected(getApplicationContext());
+        if(conectado){
+            String url = "http://192.168.15.72:5500/atividade2Mobile.txt";
+            ReadExternalFileByUrl task = new ReadExternalFileByUrl();
+            task.setOnTaskCompleteListener(this);
+            task.setOnTaskFailedListener(this);
+            task.execute(url);
+        }else{
+            this.carregaDadosOffline();
+            Toast.makeText(this, "SEM INTERNET", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onTaskComplete(ArrayList<ProdutoVO> produtos) throws Exception {
         ProdutoDAO produtoDAO = new ProdutoDAO(getApplicationContext());
-
-        String url = "http://192.168.15.72:5500/atividade2Mobile.txt";
-        ReadExternalFileByUrl task = new ReadExternalFileByUrl();
-        task.setOnTaskCompleteListener(this);
-        task.execute(url);
-
-        ProdutoVO p1 = new ProdutoVO();
-        p1.setDescricao("Pizza");
-        p1.setPreco((float) 10.50);
-        p1.setCalorias(200);
-        p1.setGluten(1);
-        p1.setImagem("https://loja.supermerclick.com.br/image/cachewebp/catalog/produtos-integracao/002693-omie___coca-cola-1500ml__conv-800x800.webp");
-        p1.setTitulo("PIZZAZUDA");
-        ProdutoVO p2 = new ProdutoVO();
-        p2.setDescricao("Hamburguer");
-        p2.setGluten(0);
-        p2.setImagem("https://s2.glbimg.com/IaEnP49buSdSUDftlMxVrq3-ZDo=/940x523/e.glbimg.com/og/ed/f/original/2019/04/26/loucosporti1.jpg");
-        p2.setCalorias(234);
-        p2.setTitulo("HAMBURGAO DA MASSA");
-        p2.setPreco((float) 22.30);
-
+        for(int i=0; i < produtos.size(); i++){
+            ProdutoVO existeProduto = produtoDAO.buscaProdutoPorTitulo(produtos.get(i).getTitulo());
+            if(existeProduto == null){
+                produtoDAO.insertProdutoDAO(produtos.get(i));
+            }
+        }
+        List<ProdutoVO> getProdutos = produtoDAO.buscarProdutos();
+        ProdutoVO[] produtosArray = new ProdutoVO[getProdutos.size()];
+        getProdutos.toArray(produtosArray);
         RecyclerViewAdapter ca= new RecyclerViewAdapter(
-                new ProdutoVO[]{p1, p2}
+                produtosArray
         );
         RecyclerView cv=this.findViewById(R.id.itensLayout);
         cv.setLayoutManager(new LinearLayoutManager(this));
@@ -50,10 +55,28 @@ public class MainActivity extends AppCompatActivity implements ReadExternalFileB
     }
 
     @Override
-    public void onTaskComplete(ArrayList<ProdutoVO> produtos) {
-        ProdutoDAO produtoDAO = new ProdutoDAO(getApplicationContext());
-        for(int i=0; i < produtos.size(); i++){
-            produtoDAO.insertProdutoDAO(produtos.get(i));
+    public void onTaskFailed(boolean failed) {
+        if(failed == true) {
+            this.carregaDadosOffline();
         }
+    }
+
+    public void carregaDadosOffline(){
+        Toast.makeText(this, "SEM CONEXÃO COM O SERVIDOR", Toast.LENGTH_SHORT).show();
+        ProdutoDAO produtoDAO = new ProdutoDAO(getApplicationContext());
+        List<ProdutoVO> getProdutos = null;
+        try {
+            getProdutos = produtoDAO.buscarProdutos();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        ProdutoVO[] produtosArray = new ProdutoVO[getProdutos.size()];
+        getProdutos.toArray(produtosArray);
+        RecyclerViewAdapter ca= new RecyclerViewAdapter(
+                produtosArray
+        );
+        RecyclerView cv=this.findViewById(R.id.itensLayout);
+        cv.setLayoutManager(new LinearLayoutManager(this));
+        cv.setAdapter(ca);
     }
 }
