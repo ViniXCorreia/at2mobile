@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements ReadExternalFileB
         setContentView(R.layout.activity_main);
         boolean conectado = ChecaInternet.isNetworkConnected(getApplicationContext());
         if(conectado){
-            String url = "http://192.168.15.72:5500/atividade2Mobile.txt";
+            String url = "http://192.168.160.1:5500/atividade2Mobile.txt";
             ReadExternalFileByUrl task = new ReadExternalFileByUrl();
             task.setOnTaskCompleteListener(this);
             task.setOnTaskFailedListener(this);

@@ -49,6 +49,7 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
             URL url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
+            urlConnection.setConnectTimeout(500);
             urlConnection.connect();
 
             int responseCode = urlConnection.getResponseCode();

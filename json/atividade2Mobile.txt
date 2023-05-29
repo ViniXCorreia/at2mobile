@@ -15,6 +15,22 @@
             "titulo":"HAMBURGUER",
             "calorias":500,
             "glutem":0
+        },
+        {
+            "imagemURL":"https://pastapizza.com.br/wp-content/uploads/2017/07/Pizza-Pizzaria-Forno-Forza-Express.jpg",
+            "descricao":"Pizza Nervosa",
+            "preco":"40.00",
+            "titulo":"PISTA PIZZA",
+            "calorias":1200,
+            "glutem":1
+        },
+        {
+            "imagemURL":"hhttps://img.cybercook.com.br/receitas/416/como-fazer-yakisoba-1-840x480.jpeg?q=75",
+            "descricao":"Yakisobita SOUBA daz coisa",
+            "preco":"55.00",
+            "titulo":"YAKISOBA",
+            "calorias":700,
+            "glutem":1
         }
     ]
 }
