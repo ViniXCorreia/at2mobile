@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements ReadExternalFileB
         setContentView(R.layout.activity_main);
         boolean conectado = ChecaInternet.isNetworkConnected(getApplicationContext());
         if(conectado){
-            String url = "http://192.168.160.1:5500/atividade2Mobile.txt";
-            ReadExternalFileByUrl task = new ReadExternalFileByUrl();
+            String url = "https://raw.githubusercontent.com/ViniXCorreia/at2mobile/main/json/atividade2Mobile.txt";
+            ReadExternalFileByUrl task = new ReadExternalFileByUrl(getApplicationContext());
             task.setOnTaskCompleteListener(this);
             task.setOnTaskFailedListener(this);
             task.execute(url);
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ReadExternalFileB
             ProdutoVO existeProduto = produtoDAO.buscaProdutoPorTitulo(produtos.get(i).getTitulo());
             if(existeProduto == null){
                 produtoDAO.insertProdutoDAO(produtos.get(i));
+            } else {
+                produtoDAO.updateProdutoDAO(produtos.get(i));
             }
         }
         List<ProdutoVO> getProdutos = produtoDAO.buscarProdutos();

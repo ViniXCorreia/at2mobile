@@ -21,7 +21,7 @@ public class ProdutoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(@NonNull SQLiteDatabase db) {
-        String sql = "CREATE TABLE produto (id INTEGER PRIMARY KEY AUTOINCREMENT, imagem TEXT, titulo TEXT, descricao TEXT, preco REAL, gluten INTEGER, calorias INTEGER)";
+        String sql = "CREATE TABLE produto (id INTEGER PRIMARY KEY, imagem TEXT, titulo TEXT, descricao TEXT, preco REAL, gluten INTEGER, calorias INTEGER)";
         db.execSQL(sql);
     }
 
@@ -34,6 +34,7 @@ public class ProdutoDAO extends SQLiteOpenHelper {
     public String insertProdutoDAO(@NonNull ProdutoVO produtoVO){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues dados = new ContentValues();
+        dados.put("id", produtoVO.getId());
         dados.put("titulo", produtoVO.getTitulo());
         dados.put("descricao", produtoVO.getDescricao());
         dados.put("preco", produtoVO.getPreco());
@@ -42,6 +43,23 @@ public class ProdutoDAO extends SQLiteOpenHelper {
         dados.put("imagem", produtoVO.getImagem());
         db.insert("produto", null, dados);
         return "Produto inserido com sucesso";
+    }
+
+    public String updateProdutoDAO(@NonNull ProdutoVO produtoVO){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues dados = new ContentValues();
+        dados.put("titulo", produtoVO.getTitulo());
+        dados.put("descricao", produtoVO.getDescricao());
+        dados.put("preco", produtoVO.getPreco());
+        dados.put("gluten", produtoVO.getGluten());
+        dados.put("calorias", produtoVO.getCalorias());
+        dados.put("imagem", produtoVO.getImagem());
+
+        String[] args = new String[] { String.valueOf(produtoVO.getId()) };
+
+        db.update("produto", dados, "id = ?", args);
+
+        return "Produto atualizado com sucesso";
     }
 
     public ArrayList<ProdutoVO> buscarProdutos() throws Exception{

@@ -1,5 +1,7 @@
 package com.example.trabalho2;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trabalho2.produtos.vo.ProdutoVO;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -89,7 +92,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.getCalorias().setText(String.valueOf(p.getCalorias()));
         viewHolder.getPreco().setText(df.format(p.getPreco()));
         viewHolder.getGluten().setText(p.getGluten() == 1 ? "Possui Glúten" : "Sem Glúten");
-        viewHolder.getImagemFromInternet(p.getImagem());
+        Bitmap bitmap = BitmapFactory.decodeFile(p.getImagem());
+        viewHolder.getImagemItem().setImageBitmap(bitmap);
     }
 
     @Override

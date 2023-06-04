@@ -1,6 +1,7 @@
 package com.example.trabalho2.produtos.vo;
 
 public class ProdutoVO {
+    private int id;
     private String descricao;
     private String imagem;
     private double preco;
@@ -8,6 +9,9 @@ public class ProdutoVO {
     private int calorias;
     private int gluten;
 
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
     public int getGluten() {
         return gluten;
     }

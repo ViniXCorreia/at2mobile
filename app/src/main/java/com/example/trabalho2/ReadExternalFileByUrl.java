@@ -1,7 +1,11 @@
 package com.example.trabalho2;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.example.trabalho2.produtos.dao.ProdutoDAO;
@@ -12,11 +16,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
@@ -24,6 +32,12 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
     private static final String TAG = "FetchJsonTask";
     private OnTaskCompleteListener taskListener;
     private OnTaskFailedListener taskFailedListener;
+
+    private Context context;
+
+    public ReadExternalFileByUrl (Context context) {
+        this.context = context;
+    }
 
     public interface OnTaskCompleteListener{
         void onTaskComplete(ArrayList<ProdutoVO> produtos) throws Exception;
@@ -62,6 +76,7 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
                     ArrayList<ProdutoVO> produtosFromURL = new ArrayList<ProdutoVO>();
                     for(int i=0; i< produtosArray.length(); i++){
                         JSONObject produto = produtosArray.getJSONObject(i);
+                        int id = produto.getInt("id");
                         String imagemURL = produto.getString("imagemURL");
                         String descricao = produto.getString("descricao");
                         double preco = produto.getDouble("preco");
@@ -70,12 +85,18 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
                         int gluten = produto.getInt("glutem");
 
                         ProdutoVO produtoVO = new ProdutoVO();
-                        produtoVO.setImagem(imagemURL);
+                        produtoVO.setId(id);
                         produtoVO.setDescricao(descricao);
                         produtoVO.setPreco(preco);
                         produtoVO.setTitulo(titulo);
                         produtoVO.setCalorias(calorias);
                         produtoVO.setGluten(gluten);
+
+                        Bitmap bmImage = this.downloadImage(imagemURL);
+                        File file = this.saveImage(bmImage, "product_" + id);
+
+                        produtoVO.setImagem(file.getPath());
+
                         produtos.add(produtoVO);
                     }
                 }
@@ -90,6 +111,34 @@ public class ReadExternalFileByUrl extends AsyncTask<String, Void, JSONObject> {
             }
         }
         return jsonObject;
+    }
+
+    private Bitmap downloadImage(String imageUrl) {
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public File saveImage(Bitmap image, String filename) {
+        File file = new File(context.getExternalFilesDir("product_images"), filename);
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file, false);
+            image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return file;
     }
 
     @Override
