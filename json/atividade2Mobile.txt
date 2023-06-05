@@ -80,7 +80,7 @@
             "titulo":"PETIT GATEU",
             "calorias":432,
             "glutem":0
-        }
+        },
         {
 			"id": 10,
             "imagemURL":"https://www.saborama.com.br/wp-content/uploads/2017/10/economize-fazendo-sorvete.jpg",

@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity implements ReadExternalFileB
         setContentView(R.layout.activity_main);
         boolean conectado = ChecaInternet.isNetworkConnected(getApplicationContext());
         if(conectado){
-            String url = "https://raw.githubusercontent.com/ViniXCorreia/at2mobile/main/json/atividade2Mobile.txt";
+//            this.deleteDatabase("banco");
+            String url = "http://172.22.192.1:5500/atividade2Mobile.txt";
             ReadExternalFileByUrl task = new ReadExternalFileByUrl(getApplicationContext());
             task.setOnTaskCompleteListener(this);
             task.setOnTaskFailedListener(this);
