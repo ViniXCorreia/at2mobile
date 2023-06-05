@@ -35,6 +35,60 @@
             "titulo":"YAKISOBA",
             "calorias":700,
             "glutem":1
+        },
+        {
+			"id": 5,
+            "imagemURL":"https://www.comidaereceitas.com.br/wp-content/uploads/2020/06/salada_escarola-780x478.jpg",
+            "descricao":"Saladaona salada",
+            "preco":"15.00",
+            "titulo":"SALADA",
+            "calorias":150,
+            "glutem":0
+        },
+        {
+			"id": 6,
+            "imagemURL":"https://cdn.panelinha.com.br/receita/953607600000-Batata-frita-tradicional.jpg",
+            "descricao":"Batata Frita fritada",
+            "preco":"10.00",
+            "titulo":"BATATA FRITA",
+            "calorias":950,
+            "glutem":0
+        },
+        {
+			"id": 7,
+            "imagemURL":"https://receitinhas.com.br/wp-content/uploads/2023/05/macarronada-de-dia-das-maes-730x365.jpg",
+            "descricao":"Macarronada com macarrão",
+            "preco":"80.00",
+            "titulo":"MACARRONADA",
+            "calorias":967,
+            "glutem":1
+        },
+        {
+			"id": 8,
+            "imagemURL":"https://descomplicandoreceitas.com.br/wp-content/uploads/2023/02/Camarao-a-Milanesa.jpg",
+            "descricao":"Camarão a milanesa com milanesa de camarão",
+            "preco":"120.00",
+            "titulo":"CAMARAO A MILANESA",
+            "calorias":1500,
+            "glutem":1
+        },
+        {
+			"id": 9,
+            "imagemURL":"https://ribeirao.emporiotartufo.com.br/image/cache/catalog/img/produtos_2021/126065-PETIT-GATEAU-CHOCOLATE-2UN-180-GRAMAS-SANTA-JULIA-a-550x367h.jpg",
+            "descricao":"Petit Gateu top das galaxias",
+            "preco":"20.00",
+            "titulo":"PETIT GATEU",
+            "calorias":432,
+            "glutem":0
+        }
+        {
+			"id": 10,
+            "imagemURL":"https://www.saborama.com.br/wp-content/uploads/2017/10/economize-fazendo-sorvete.jpg",
+            "descricao":"Sorvetao pra galera",
+            "preco":"27.00",
+            "titulo":"SORVETAO",
+            "calorias":768,
+            "glutem":0
         }
     ]
 }
